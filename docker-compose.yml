@@ -1,0 +1,62 @@
+services:
+  app:
+    container_name: "pvz-service"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${APP_PORT:-8080}:8080"
+      - "9000:9000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file:
+      - .env
+    restart: unless-stopped
+    volumes:
+      - ./:/app/data
+    networks:
+      - pvz-network
+
+  postgres:
+    container_name: "postgres-service"
+    image: postgres:16-alpine
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-admin}
+      - POSTGRES_DB=${DB_NAME:-pvz-db}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - pvz-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-pvz-db}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  prometheus:
+    container_name: "prometheus-service"
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/recording_rules.yml:/etc/prometheus/recording_rules.yml
+      - prometheus-data:/prometheus
+    restart: unless-stopped
+    networks:
+      - pvz-network
+
+networks:
+  pvz-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  prometheus-data: 

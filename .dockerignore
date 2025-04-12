@@ -1,0 +1,41 @@
+# Git
+.git
+.gitignore
+
+# Docker
+.docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Dependency directories (remove the comment below if you want to ignore them)
+# vendor/
+
+# Go workspace file
+go.work
+
+# Editor directories and files
+.idea/
+.vscode/
+
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production 

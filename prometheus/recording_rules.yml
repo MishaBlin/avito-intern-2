@@ -1,0 +1,15 @@
+groups:
+  - name: application_rules
+    interval: 15s
+    rules:
+      - record: app:product_added_total
+        expr: product_added_total
+
+      - record: app:pvz_http_requests_total
+        expr: pvz_http_requests_total
+
+      - record: app:pvz_http_response_time_avg_seconds
+        expr: pvz_http_response_time_seconds_sum / pvz_http_response_time_seconds_count
+
+      - record: app:reception_created_total
+        expr: reception_created_total
