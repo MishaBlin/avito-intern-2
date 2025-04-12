@@ -19,4 +19,4 @@ Go, Postgres, chi-router, testcontainers, prometheus.
 
 1. Создать файл `.env`. Перенести в него данные из `example.env`
 2. Выполнить команду `docker-compose up --build -d`
-3. Выполнить команду для миграций бд: `docker exec docker exec pvz-service "bash" "./scripts/run-migrations.sh"`
+3. Выполнить команду для миграций бд: `docker exec pvz-service "bash" "./scripts/run-migrations.sh"`
